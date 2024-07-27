@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO: Student</title>
+    <!-- Include Google Translate Element -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Include the Web Speech API -->
+    <script>
+        // Initialize SpeechRecognition object
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+
+        // Function to handle recognized speech
+        recognition.onresult = function(event) {
+            var transcript = event.results[0][0].transcript.toLowerCase();
+            if (transcript.includes('read page')) {
+                readPageContent();
+            } else if (transcript.includes('select home')) {
+                window.location.href = "ahome.php";
+            }
+        };
+
+        // Function to handle recognition errors
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+        };
+
+        // Function to start speech recognition
+        function startRecognition() {
+            recognition.start();
+        }
+
+        // Function to stop speech recognition
+        function stopRecognition() {
+            recognition.stop();
+        }
+
+        // Function to speak text
+        function speakText(text) {
+            var synth = window.speechSynthesis;
+            var utterance = new SpeechSynthesisUtterance(text);
+            synth.speak(utterance);
+        }
+
+        // Function to read the content of the entire page
+        function readPageContent() {
+            var pageContent = document.body.innerText;
+            speakText(pageContent);
+        }
+    </script>
+</head>
+<body>
+    <!-- Your existing HTML content -->
+    <header>
+        <nav>
+            <h1><a href="ahome.php">NGO</a></h1>
+            <ul>
+                <li><a href="ahome.php">Home</a></li>
+                <li><a href="a_student.php">Back to Student</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h3>Hello Admin</h3>
+
+    <div style="padding-top: 50px; padding-left: 50px">
+        <div class="container-fluid my-3">
+            <h2 class="text-center">Student Scholarship Application</h2>
+
+            <!-- Your form and other content goes here -->
+        </div>
+    </div>
+
+    <!-- Google Translate Element container -->
+    <div id="google_translate_element"></div>
+
+    <!-- Button to start voice recognition -->
+    <button onclick="startRecognition();">Start Voice Command</button>
+
+    <!-- Button to stop voice recognition -->
+    <button onclick="stopRecognition();">Stop Voice Command</button>
+
+    <script>
+        // Optional: Change the position of the Google Translate Element
+        document.getElementById('google_translate_element').style.position = 'fixed';
+        document.getElementById('google_translate_element').style.bottom = '20px';
+        document.getElementById('google_translate_element').style.right = '20px';
+    </script>
+</body>
+</html>
